@@ -1,18 +1,24 @@
 const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
-
 const app = express();
-const port = process.env.PORT || 5000;
+const cors = require("cors");
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
-app.get("/", function(req, res) {
-    res.end("e-track");
+// connect to db
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function() {
+    console.log("conencted to db");
 });
 
-app.listen(port, function() {
-    console.log(`now listening to port ${port}`);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, function() {
+    console.log(`Server running on ${PORT}`);
 });
