@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
 
@@ -8,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.get("/", function(req, res) {
     res.end("e-track");
