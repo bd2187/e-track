@@ -1,14 +1,7 @@
 const express = require("express");
-const router = express.Router;
+const router = express.Router();
 const User = require("../models/user.model");
-
-function generate_response(success, message, data) {
-    return {
-        success,
-        message,
-        data
-    };
-}
+const generate_response = require("../utils/generate_response");
 
 // create get request to fetch all users
 router.route("/").get(function(req, res) {
