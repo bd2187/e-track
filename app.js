@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const PORT = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -17,7 +18,12 @@ db.once("open", function() {
     console.log("conencted to db");
 });
 
-const PORT = process.env.PORT || 5000;
+// Routes
+const usersRoutes = require("./routes/users");
+const exerciseRoutes = require("./routes/exercise");
+
+app.use("/users", usersRoutes);
+app.use("/exercises", exerciseRoutes);
 
 app.listen(PORT, function() {
     console.log(`Server running on ${PORT}`);
