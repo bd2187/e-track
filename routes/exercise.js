@@ -128,4 +128,49 @@ router
             });
     });
 
+/**
+ * Type: POST
+ * Route: /exercises/updated/:id
+ * Description: Updates existing exercise from DB
+ */
+router.route("/update/:id").post(function(req, res) {
+    const { id } = req.params;
+    const { username, description, duration, date } = req.body;
+
+    Exercise.findById(id)
+        .then(function(exercise) {
+            exercise.username = username || exercise.username;
+            exercise.description = description || exercise.description;
+            exercise.duration = duration || exercise.duration;
+            exercise.date = date || exercise.date;
+
+            return exercise;
+        })
+        .then(function(updated_exercise) {
+            updated_exercise
+                .save()
+                .then(function(exercise) {
+                    return res.json(
+                        generate_response(
+                            true,
+                            `successfully updated exercise`,
+                            updated_exercise
+                        )
+                    );
+                })
+                .catch(function(err) {
+                    return res
+                        .status(400)
+                        .json(
+                            generate(false, "failed to update exercise", err)
+                        );
+                });
+        })
+        .catch(function(err) {
+            return res
+                .status(400)
+                .json(generate(false, "failed to update exercise", err));
+        });
+});
+
 module.exports = router;
