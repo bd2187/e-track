@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const CreateExercise = function() {
+const CreateExercise = function(props) {
     const [username, setUsername] = useState("");
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState(0);
@@ -43,7 +45,7 @@ const CreateExercise = function() {
             date
         };
 
-        window.location = "/";
+        props.history.push("/");
     };
 
     return (
@@ -71,11 +73,28 @@ const CreateExercise = function() {
                     <label>duration (in minutes):</label>
                     <input
                         className="form-control"
-                        type="number"
+                        data-type="number"
                         value={duration}
                         onChange={updateFormField}
                         data-type="duration"
                         min="0"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>date:</label>
+                    <div>
+                        <DatePicker
+                            date-type="date"
+                            selected={date}
+                            onChange={date => setDate(date)}
+                        />
+                    </div>
+                </div>
+                <div className="form-group">
+                    <input
+                        type="submit"
+                        value="create exercise log"
+                        className="btn btn-primary"
                     />
                 </div>
             </form>
