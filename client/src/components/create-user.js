@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const CreateUser = function() {
     const [username, setUsername] = useState("");
@@ -10,6 +11,11 @@ const CreateUser = function() {
 
     const onUsernameSubmit = function(evt) {
         evt.preventDefault();
+        axios
+            .post("http://localhost:5000/users/add", { username })
+            .then(res => {
+                console.log(res.data);
+            });
         setUsername("");
     };
 
@@ -24,6 +30,7 @@ const CreateUser = function() {
                         className="form-control"
                         value={username}
                         onChange={onUsernameChange}
+                        required="required"
                     />
                 </div>
                 <div className="form-group">
