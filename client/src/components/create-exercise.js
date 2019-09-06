@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,8 +11,17 @@ const CreateExercise = function(props) {
     const [users, setUsers] = useState([]);
 
     useEffect(function() {
-        setUsers(["user1", "me", "user3"]);
-        setUsername("me");
+        axios.get("http://localhost:5000/users").then(res => {
+            if (res.data.data.length > 0) {
+                const usernames_arr = res.data.data.map(user => user.username);
+                setUsers(usernames_arr);
+
+                const first_user = usernames_arr[0];
+
+                setUsername(first_user);
+            } else {
+            }
+        });
     }, []);
 
     const updateFormField = function(evt) {
@@ -45,6 +55,12 @@ const CreateExercise = function(props) {
             date
         };
 
+        axios
+            .post("http://localhost:5000/exercises/add", exercise)
+            .then(res => {
+                console.log(res.data);
+            });
+
         props.history.push("/");
     };
 
@@ -68,6 +84,16 @@ const CreateExercise = function(props) {
                             );
                         })}
                     </select>
+                </div>
+                <div className="form-group">
+                    <label>description:</label>
+                    <input
+                        className="form-control"
+                        data-type="text"
+                        value={description}
+                        onChange={updateFormField}
+                        data-type="description"
+                    />
                 </div>
                 <div className="form-group">
                     <label>duration (in minutes):</label>
