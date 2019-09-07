@@ -11,10 +11,18 @@ const Exercise = function(props) {
             <td>{duration}</td>
             <td>{date.substring(0, 10)}</td>
             <td>
-                {/* <Link to={`/edit/${props.exercise._id}`}>edit</Link> |{" "}
-                <a href="#" onClick={props.delete_exercise(props.exercise._id)}>
+                <Link to={`/edit/${props.exercise._id}`}>edit</Link> |{" "}
+                <button
+                    style={{
+                        background: "none",
+                        border: "none",
+                        padding: "0",
+                        color: "#007bff"
+                    }}
+                    onClick={() => props.delete_exercise(props.exercise._id)}
+                >
                     delete
-                </a> */}
+                </button>
             </td>
         </tr>
     );
